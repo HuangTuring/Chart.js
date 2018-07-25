@@ -89,9 +89,10 @@ defaults._set('global', {
  * @return {Number} width of the color box area
  */
 function getBoxWidth(labelOpts, fontSize) {
-	return labelOpts.usePointStyle ?
-		fontSize * Math.SQRT2 :
-		labelOpts.boxWidth;
+	// return labelOpts.usePointStyle ?
+	// 	fontSize * Math.SQRT2 :
+	// 	labelOpts.boxWidth;
+	return fontSize;
 }
 
 /**
@@ -389,6 +390,22 @@ var Legend = Element.extend({
 					ctx.fillRect(x, y, boxWidth, fontSize);
 				}
 
+				/**
+				 * Draw check box as legend symbol
+				 * Added by huang
+				 */
+				if (!legendItem.hidden) {
+					ctx.strokeStyle = '#FFFFFF';
+					ctx.beginPath();
+
+					ctx.lineWidth = 2;
+					ctx.moveTo(x + 2, y + boxWidth / 2);
+					ctx.lineTo(x + boxWidth / 2 - 1, y + boxWidth - 2);
+					ctx.lineTo(x + boxWidth - 1, y + 1);
+
+					ctx.stroke();
+				}
+
 				ctx.restore();
 			};
 			var fillText = function(x, y, legendItem, textWidth) {
@@ -400,11 +417,18 @@ var Legend = Element.extend({
 
 				if (legendItem.hidden) {
 					// Strikethrough the text if hidden
-					ctx.beginPath();
-					ctx.lineWidth = 2;
-					ctx.moveTo(xLeft, yMiddle);
-					ctx.lineTo(xLeft + textWidth, yMiddle);
-					ctx.stroke();
+
+					/**
+					 * fixed by huang
+					 * remove midline of text label
+					 * begin
+						ctx.beginPath();
+						ctx.lineWidth = 2;
+						ctx.moveTo(xLeft, yMiddle);
+						ctx.lineTo(xLeft + textWidth, yMiddle);
+						ctx.stroke();
+					 * end
+					 */
 				}
 			};
 
